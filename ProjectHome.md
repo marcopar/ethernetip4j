@@ -1,0 +1,1 @@
+EthernetIp4j is a communication protocol for Rockwell's Allen-Bradley PLC systems, written entirely in Java.
