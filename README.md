@@ -9,7 +9,7 @@ I have no informations about the original project authors, the only info i have 
 
 maja.arv...@gmail.com 	Owner
 
-sewallin...@gmail.com 	Owner
+sewallin...@gmail.com 	Owner - Probably: https://github.com/sewalliniusm
 
 jens.fre...@gmail.com 	Owner
 
