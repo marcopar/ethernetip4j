@@ -23,9 +23,9 @@ The project on google code is dead and the latest patches i made available on go
 So now i am starting this new project where i have applied all my patches.
 
 Please note that i am mantaining this project because i need it at work.
-However my knowledge of the protocol and the library itself is very limited, also i do not have access to the full documentation of the ethernet/ip and cip protocols.
-The modifications i have dove are the result of a very difficult and tedious process of bug hunting, documentation hunting, trial and error and luck.
+However my knowledge of the protocol and the library itself is very limited, also i do not have access to the full documentation of the ethernet/ip and cip protocols (that btw are pretty complex).
+The modifications i have done are the result of a very difficult and tedious process of bug hunting, documentation hunting, trial and error and luck.
 
-So i can't assure prompt bugfixing or proper development of this project unless i need to solve the same issue formy work.
+So please understand that i can't assure prompt bugfixing or proper project development unless i need to solve the same issue for my work.
 
 Good luck and have fun!
