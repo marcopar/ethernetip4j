@@ -9,189 +9,194 @@ import se.opendataexchange.ethernetip4j.EthernetIpBufferUtil;
 import se.opendataexchange.ethernetip4j.segments.EthernetIpEncapsulationHeader;
 import se.opendataexchange.ethernetip4j.services.EthernetIpRegisterSessionRequest;
 
-/***
+/**
+ * *
  * Access data from a Logix5000 controller by using CIP Services.
- * 
+ *
  */
-public class ControlLogixConnector{
-	EthernetIpBufferUtil incomingBuffer = new EthernetIpBufferUtil(1500);
-	
-	private ByteBuffer sending;
-	private ByteBuffer receiving;
-	
-	protected SocketChannel socketChannel;
+public class ControlLogixConnector {
 
-	private String host;
+    EthernetIpBufferUtil incomingBuffer = new EthernetIpBufferUtil(1500);
 
-	private int port;
+    private ByteBuffer sending;
+    private ByteBuffer receiving;
 
-	protected long sessionHandle;
-	
-	/***
-	 * Create a connection to a Logix5000 controller.
-	 * 
-	 * Creates a ({@link java.nio.channels.SocketChannel} and connects.
-	 * 
-	 * @param host
-	 * @param port
-	 * @throws IOException
-	 */
-	public ControlLogixConnector(String host, int port) throws IOException {
-		this.host = host;
-		this.port = port;
-		try {
-			this.socketChannel = this.createSocketChannel();
-			while (!socketChannel.finishConnect()) {
-				try {
-					Thread.sleep(10);
-				}catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			this.sessionHandle = this.registerSession();
-		} catch (IOException e) {
-			this.sessionHandle = 0;
-			e.printStackTrace();
-			throw e;
-		} 
-	}
-	
-	public String getHost() {
-		return this.host;
-	}
+    protected SocketChannel socketChannel;
 
-	public void setHost(String host) throws IOException {
-		this.host = host;
-		if (socketChannel != null) {
-			disconnect();
-			try {
-				this.socketChannel = this.createSocketChannel();
-				this.sessionHandle = this.registerSession();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-				throw ex;
-			}
-		} else {
-			try {
-				this.socketChannel = this.createSocketChannel();
-				this.sessionHandle = this.registerSession();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-				throw ex;
-			}
-		}
-	}
+    private String host;
 
-	public int getPort() {
-		return this.port;
-	}
+    private int port;
 
-	public void setPort(int port) {
-		this.port = port;
-	}
+    protected long sessionHandle;
 
-	public boolean isConnected() {
-		if (this.socketChannel != null) {
-			return this.socketChannel.isConnected();
-		} else
-			return false;
-	}
+    /**
+     * *
+     * Create a connection to a Logix5000 controller.
+     *
+     * Creates a ({@link java.nio.channels.SocketChannel} and connects.
+     *
+     * @param host
+     * @param port
+     * @throws IOException
+     */
+    public ControlLogixConnector(String host, int port) throws IOException {
+        this.host = host;
+        this.port = port;
+        try {
+            this.socketChannel = this.createSocketChannel();
+            while(!socketChannel.finishConnect()) {
+                try {
+                    Thread.sleep(10);
+                } catch(InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            this.sessionHandle = this.registerSession();
+        } catch(IOException e) {
+            this.sessionHandle = 0;
+            e.printStackTrace();
+            throw e;
+        }
+    }
 
-	public void connect() throws IOException {
-		if (this.socketChannel != null) {
-			if (isConnected())
-				return;
-			else {
-				try {
-					this.socketChannel.connect(new InetSocketAddress(this.host,
-							this.port));
-					this.sessionHandle = this.registerSession();
-				} catch (IOException ex) {
-					ex.printStackTrace();
-					throw ex;
-				}
-			}
-		} else {
-			try {
-				this.socketChannel = this.createSocketChannel();
-				this.sessionHandle = this.registerSession();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-				throw ex;
-			}
-		}
-	}
+    public String getHost() {
+        return this.host;
+    }
 
-	public void disconnect() throws IOException {
-		if (this.socketChannel != null)
-			try {
-				this.socketChannel.close();
-				this.socketChannel = null;
-			} catch (IOException ex) {
-				ex.printStackTrace();
-				throw ex;
-			}
-	}
+    public void setHost(String host) throws IOException {
+        this.host = host;
+        if(socketChannel != null) {
+            disconnect();
+            try {
+                this.socketChannel = this.createSocketChannel();
+                this.sessionHandle = this.registerSession();
+            } catch(IOException ex) {
+                ex.printStackTrace();
+                throw ex;
+            }
+        } else {
+            try {
+                this.socketChannel = this.createSocketChannel();
+                this.sessionHandle = this.registerSession();
+            } catch(IOException ex) {
+                ex.printStackTrace();
+                throw ex;
+            }
+        }
+    }
 
-	private long registerSession() throws IOException {
-		// Send register session request
-		this.sendData(new EthernetIpRegisterSessionRequest().getByteBuffer());
+    public int getPort() {
+        return this.port;
+    }
 
-		// Receive register session response
-		this.receiveData(incomingBuffer.getBuffer());
-		// Extract and return the session handle
-		return EthernetIpEncapsulationHeader.getSessionHandle(incomingBuffer);
-	}
+    public void setPort(int port) {
+        this.port = port;
+    }
 
-	private SocketChannel createSocketChannel() throws IOException {
-		SocketChannel sChannel = SocketChannel.open();
-		sChannel.configureBlocking(true);
-		sChannel.connect(new InetSocketAddress(this.host, this.port));
-		return sChannel;
-	}
+    public boolean isConnected() {
+        if(this.socketChannel != null) {
+            return this.socketChannel.isConnected();
+        } else {
+            return false;
+        }
+    }
 
-	protected void sendData(ByteBuffer buffer) throws IOException {
-		try {
-			this.socketChannel.write(buffer);
-			sending = buffer;
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}
+    public void connect() throws IOException {
+        if(this.socketChannel != null) {
+            if(isConnected()) {
+                return;
+            } else {
+                try {
+                    this.socketChannel.connect(new InetSocketAddress(this.host,
+                        this.port));
+                    this.sessionHandle = this.registerSession();
+                } catch(IOException ex) {
+                    ex.printStackTrace();
+                    throw ex;
+                }
+            }
+        } else {
+            try {
+                this.socketChannel = this.createSocketChannel();
+                this.sessionHandle = this.registerSession();
+            } catch(IOException ex) {
+                ex.printStackTrace();
+                throw ex;
+            }
+        }
+    }
 
-	protected int receiveData(ByteBuffer buffer) throws IOException {
-		int dataLength=-1;
-		try {
-			buffer.clear();
-			dataLength = 0;
-			dataLength += this.socketChannel.read(buffer);
-			buffer.limit(dataLength);
-			buffer.limit(dataLength);
-			//TestUtils.printByteBuffer(buffer, 0, 100);
-			receiving = buffer;
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw e;
-		}
-		return dataLength;
-	}
-	
-	public ByteBuffer getLatestSent(){
-		return sending;
-	}
-	
-	public ByteBuffer getLatestIncoming(){
-		return receiving;
-	}
+    public void disconnect() throws IOException {
+        if(this.socketChannel != null) {
+            try {
+                this.socketChannel.close();
+                this.socketChannel = null;
+            } catch(IOException ex) {
+                ex.printStackTrace();
+                throw ex;
+            }
+        }
+    }
 
-	public long getSessionHandle() {
-		return sessionHandle;
-	}
-	
-	public void executeMessage(UnconnectedMessaging message) throws IOException{
-		this.sendData(message.getSendRequest());
-		message.request.getByteBuffer().rewind();
-		this.receiveData(message.getResponseBuffer());
-	}	
+    private long registerSession() throws IOException {
+        // Send register session request
+        this.sendData(new EthernetIpRegisterSessionRequest().getByteBuffer());
+
+        // Receive register session response
+        this.receiveData(incomingBuffer.getBuffer());
+        // Extract and return the session handle
+        return EthernetIpEncapsulationHeader.getSessionHandle(incomingBuffer);
+    }
+
+    private SocketChannel createSocketChannel() throws IOException {
+        SocketChannel sChannel = SocketChannel.open();
+        sChannel.configureBlocking(true);
+        sChannel.connect(new InetSocketAddress(this.host, this.port));
+        return sChannel;
+    }
+
+    protected void sendData(ByteBuffer buffer) throws IOException {
+        try {
+            this.socketChannel.write(buffer);
+            sending = buffer;
+        } catch(IOException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    protected int receiveData(ByteBuffer buffer) throws IOException {
+        int dataLength = -1;
+        try {
+            buffer.clear();
+            dataLength = 0;
+            dataLength += this.socketChannel.read(buffer);
+            buffer.limit(dataLength);
+            buffer.limit(dataLength);
+            //TestUtils.printByteBuffer(buffer, 0, 100);
+            receiving = buffer;
+        } catch(IOException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return dataLength;
+    }
+
+    public ByteBuffer getLatestSent() {
+        return sending;
+    }
+
+    public ByteBuffer getLatestIncoming() {
+        return receiving;
+    }
+
+    public long getSessionHandle() {
+        return sessionHandle;
+    }
+
+    public void executeMessage(UnconnectedMessaging message) throws IOException {
+        this.sendData(message.getSendRequest());
+        message.request.getByteBuffer().rewind();
+        this.receiveData(message.getResponseBuffer());
+    }
 }

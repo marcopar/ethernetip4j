@@ -1,7 +1,6 @@
 package se.opendataexchange.ethernetip4j.clx;
 
 import java.nio.ByteBuffer;
-
 import se.opendataexchange.ethernetip4j.EthernetIpBufferUtil;
 import se.opendataexchange.ethernetip4j.exceptions.EmbeddedServiceException;
 import se.opendataexchange.ethernetip4j.exceptions.InsufficientCommandException;
@@ -15,31 +14,32 @@ import se.opendataexchange.ethernetip4j.exceptions.ResponseBufferOverflowExcepti
 import se.opendataexchange.ethernetip4j.services.UnconnectedMessageManagerRequest;
 import se.opendataexchange.ethernetip4j.services.UnconnectedMessageManagerResponse;
 
-/***
- * 
+/**
+ * *
+ *
  * Request, response
- * 
+ *
  */
-
 public abstract class UnconnectedMessaging {
-	public static final int MAX_MESSAGE_SIZE = 1500;
-	
-	protected UnconnectedMessageManagerRequest request = new UnconnectedMessageManagerRequest(new EthernetIpBufferUtil(MAX_MESSAGE_SIZE));
-	protected UnconnectedMessageManagerResponse response = new UnconnectedMessageManagerResponse(new EthernetIpBufferUtil(MAX_MESSAGE_SIZE));
-	
-	public UnconnectedMessaging(){
-		
-	}
-	
-	public ByteBuffer getSendRequest(){
-		return request.getByteBuffer();
-	}
-	
-	public ByteBuffer getResponseBuffer(){
-		return response.getBuffer();
-	}
-	
-	public void validateResponse() throws PathSegmentException, ItemNotFoundException, ResponseBufferOverflowException, ProcessingAttributesException, InsufficientCommandException, InsufficientNrOfAttributesException, OtherWithExtendedCodeException, InvalidTypeException, EmbeddedServiceException{
-		response.validate();
-	}
+
+    public static final int MAX_MESSAGE_SIZE = 1500;
+
+    protected UnconnectedMessageManagerRequest request = new UnconnectedMessageManagerRequest(new EthernetIpBufferUtil(MAX_MESSAGE_SIZE));
+    protected UnconnectedMessageManagerResponse response = new UnconnectedMessageManagerResponse(new EthernetIpBufferUtil(MAX_MESSAGE_SIZE));
+
+    public UnconnectedMessaging() {
+
+    }
+
+    public ByteBuffer getSendRequest() {
+        return request.getByteBuffer();
+    }
+
+    public ByteBuffer getResponseBuffer() {
+        return response.getBuffer();
+    }
+
+    public void validateResponse() throws PathSegmentException, ItemNotFoundException, ResponseBufferOverflowException, ProcessingAttributesException, InsufficientCommandException, InsufficientNrOfAttributesException, OtherWithExtendedCodeException, InvalidTypeException, EmbeddedServiceException {
+        response.validate();
+    }
 }
