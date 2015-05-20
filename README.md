@@ -22,7 +22,7 @@ I will update this informations and give proper credit for their work if i manag
 The project on google code is dead and the latest patches i made available on google code issue tracker have never been merged in the project trunk.
 So now i am starting this new project where i have applied all my patches.
 
-Please note that i am mantaining this project because i need it at work.
+Please note that i am mantaining this project because i need it form my work.
 However my knowledge of the protocol and the library itself is very limited, also i do not have access to the full documentation of the ethernet/ip and cip protocols (that btw are pretty complex).
 The modifications i have done are the result of a very difficult and tedious process of bug hunting, documentation hunting, trial and error and luck.
 
