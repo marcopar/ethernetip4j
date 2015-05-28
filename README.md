@@ -7,7 +7,7 @@ https://code.google.com/p/ethernetip4j/
 
 I have no informations about the original project authors, the only info i have are the "shortened" email addressess available on google code:
 
-maja.arv...@gmail.com 	Owner
+maja.arv...@gmail.com 	Owner - Maja Arvehammmar
 
 sewallin...@gmail.com 	Owner - Probably: https://github.com/sewalliniusm
 
