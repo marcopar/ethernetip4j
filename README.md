@@ -1,6 +1,6 @@
 # ethernetip4j
 
-# NOTE: i switched work and i have no longer have access to any Allen Bradley PLC, so i'm unable to do any activity on this project.
+# NOTE: i switched work and i have no longer access to any Allen Bradley PLC, so i'm unable to do any activity on this project.
 
 EthernetIp4j is a communication protocol library for Rockwell's Allen-Bradley PLC systems, written entirely in Java. 
 
